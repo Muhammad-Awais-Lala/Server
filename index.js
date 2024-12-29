@@ -20,15 +20,15 @@ app.use("/auth",AuthRouter)
 
 //////////////////////////////////////////////////////////////////////////////
 
-app.post("/createTodo",isAuthenticated, async (req, res) => {
+app.post("/create",isAuthenticated, async (req, res) => {
     // const {body}=req  //req.body my sy jo data aya hy vo mol jay ga
     // console.log(body)
 
     let todo = req.body
     const newTodo = new TodoModel(todo);
     try {
-        await newTodo.save()
-        res.json({message:"Created Successfully",todo})
+        const savedTodo = await newTodo.save()
+        res.json({message:"Event Created Successfully",todo:savedTodo})
 
     } catch (err) {
         res.json({message:"Internel server error"})
@@ -39,14 +39,14 @@ app.post("/createTodo",isAuthenticated, async (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-app.get("/readTodos",isAuthenticated ,async (req, res) => {
-    console.log("-----Enshre user details------",req.user)
+app.get("/read",async (req, res) => {
+    // console.log("-----Enshre user details------",req.user)
     const todos = await TodoModel.find();
     res.send(todos)
 })
 
 //////////////////////////////////////////////////////////////////////////////
-app.post("/updateTodo", async (req, res) => {
+app.post("/update", async (req, res) => {
 
     let todo = req.body
     // let data = { ...todo }
@@ -54,20 +54,20 @@ app.post("/updateTodo", async (req, res) => {
 
     try {
         await TodoModel.findByIdAndUpdate(todo._id, { title: "Todo Updated" })
-        res.send("Todo Updated")//message send to client
+        res.send("Event Updated")//message send to client
     } catch (err) {
         res.send("Something went wrong")//message send to client
 
     }
 })
 
-app.post("/deleteTodo", async (req, res) => {
+app.post("/delete", async (req, res) => {
 
     let todo = req.body
 
     try {
         await TodoModel.findByIdAndDelete(todo._id)
-        res.send("Todo Deleted")//message send to client
+        res.send("Event Deleted")//message send to client
     } catch (err) {
         res.send("Something went wrong")//message send to client
 

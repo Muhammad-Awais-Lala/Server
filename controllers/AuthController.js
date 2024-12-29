@@ -40,7 +40,8 @@ const login = async (req, res) => {
         } else {
             const jwtToken = jwt.sign({ email: user.email, uid: user._id }, process.env.JWT_SECRET, { expiresIn: "24h" })
             res.status(200)
-                .json({ message: "login Successfully", success: true, jwtToken, email, name: user.name })
+                // .json({ message: "login Successfully", success: true, jwtToken, email, name: user.name })
+                .json({ message: "login Successfully", success: true, jwtToken, user })
 
         }
     } catch (err) {
