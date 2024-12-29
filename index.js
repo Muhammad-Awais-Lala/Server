@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 app.use("/auth",AuthRouter)
 
 //////////////////////////////////////////////////////////////////////////////
-
-app.post("/create",isAuthenticated, async (req, res) => {
+// app.post("/create",isAuthenticated, async (req, res) isAuthenticated is validation is user token is valid
+app.post("/create",async (req, res) => {
     // const {body}=req  //req.body my sy jo data aya hy vo mol jay ga
     // console.log(body)
 
