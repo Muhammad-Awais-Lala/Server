@@ -18,11 +18,10 @@ app.use(bodyParser.json());
 
 app.use("/auth",AuthRouter)
 
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////Create///////////////////////////////////////
 // app.post("/create",isAuthenticated, async (req, res) isAuthenticated is validation is user token is valid
 app.post("/create",async (req, res) => {
-    // const {body}=req  //req.body my sy jo data aya hy vo mol jay ga
-    // console.log(body)
+    
 
     let todo = req.body
     const newTodo = new TodoModel(todo);
@@ -37,7 +36,7 @@ app.post("/create",async (req, res) => {
     // res.send("data recived")//message send to client
 })
 
-/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////Read/////////////////////////////////////////
 
 app.get("/read",async (req, res) => {
     // console.log("-----Enshre user details------",req.user)
@@ -45,15 +44,15 @@ app.get("/read",async (req, res) => {
     res.send(todos)
 })
 
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////Update///////////////////////////////////////////
 app.post("/update", async (req, res) => {
 
     let todo = req.body
-    // let data = { ...todo }
-    // delete data.id
+    let data = { ...todo }
+    delete data._id
 
     try {
-        await TodoModel.findByIdAndUpdate(todo._id, { title: "Todo Updated" })
+        await TodoModel.findByIdAndUpdate(todo._id, data)
         res.send("Event Updated")//message send to client
     } catch (err) {
         res.send("Something went wrong")//message send to client
@@ -61,6 +60,8 @@ app.post("/update", async (req, res) => {
     }
 })
 
+
+///////////////////////////////////// delete ///////////////////////////////////////
 app.post("/delete", async (req, res) => {
 
     let todo = req.body
